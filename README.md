@@ -6,9 +6,9 @@ Give it a topic and it will generate a web search query, gather web search resul
 
 It will provide the user a final markdown summary with all sources used to generate the summary
 
-## 🚀 Quickstart
+## 🚀 Quickstart (after creating a environemnt)
 
-Clone the repository:
+Clone the repository then do a cd:
 ```shell
 cd local-deep-researcher
 ```
