@@ -8,7 +8,7 @@ from langchain_ollama import ChatOllama
 from langgraph.graph import START, END, StateGraph
 
 from ollama_deep_researcher.configuration import Configuration, SearchAPI
-from ollama_deep_researcher.utils import deduplicate_and_format_sources, format_sources, duckduckgo_search, strip_thinking_tokens, get_config_value
+from ollama_deep_researcher.utils import deduplicate_and_format_sources, format_sources, duckduckgo_search,semantic_scholar_search, strip_thinking_tokens, get_config_value
 from ollama_deep_researcher.state import SummaryState, SummaryStateInput, SummaryStateOutput
 from ollama_deep_researcher.prompts import query_writer_instructions, summarizer_instructions, reflection_instructions, get_current_date
 
@@ -96,6 +96,9 @@ def web_research(state: SummaryState, config: RunnableConfig):
         search_str = deduplicate_and_format_sources(search_results, max_tokens_per_source=1000, fetch_full_page=configurable.fetch_full_page)
     elif search_api == "searxng":
         search_results = searxng_search(state.search_query, max_results=3, fetch_full_page=configurable.fetch_full_page)
+        search_str = deduplicate_and_format_sources(search_results, max_tokens_per_source=1000, fetch_full_page=configurable.fetch_full_page)
+    elif search_api == "semantic_scholar":
+        search_results = semantic_scholar_search(state.search_query, max_results=3, fetch_full_page=configurable.fetch_full_page)
         search_str = deduplicate_and_format_sources(search_results, max_tokens_per_source=1000, fetch_full_page=configurable.fetch_full_page)
     else:
         raise ValueError(f"Unsupported search API: {configurable.search_api}")

@@ -7,6 +7,7 @@ from langchain_core.runnables import RunnableConfig
 
 class SearchAPI(Enum):
     DUCKDUCKGO = "duckduckgo"
+    SEMANTIC_SCHOLAR = "semantic_scholar"
 
 class Configuration(BaseModel):
     """The configurable fields for the research assistant."""
@@ -17,7 +18,7 @@ class Configuration(BaseModel):
         description="Number of research iterations to perform"
     )
     local_llm: str = Field(
-        default="qwen3:8b-q4_K_M ",
+        default="qwen3:8b",
         title="LLM Model Name",
         description="Name of the LLM model to use"
     )
@@ -26,8 +27,8 @@ class Configuration(BaseModel):
         title="LLM Provider",
         description="Provider for the LLM (Ollama)"
     )
-    search_api: Literal["duckduckgo"] = Field(
-        default="duckduckgo",
+    search_api: Literal["semantic_scholar"] = Field(
+        default="semantic_scholar",
         title="Search API",
         description="Web search API to use"
     )

@@ -1,0 +1,1 @@
+AI adoption trends in higher education 2025

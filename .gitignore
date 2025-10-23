@@ -1,0 +1,5 @@
+.env
+.venv
+.langgraph_api
+*.pyc
+ollama_deep_researcher.egg-info

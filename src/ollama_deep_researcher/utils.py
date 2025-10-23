@@ -7,7 +7,8 @@ from markdownify import markdownify
 from langsmith import traceable
 from tavily import TavilyClient
 from duckduckgo_search import DDGS
-
+import requests
+import json
 from langchain_community.utilities import SearxSearchWrapper
 
 def get_config_value(value: Any) -> str:
@@ -204,3 +205,55 @@ def duckduckgo_search(query: str, max_results: int = 3, fetch_full_page: bool = 
         print(f"Full error details: {type(e).__name__}")
         return {"results": []}
 
+@traceable
+def semantic_scholar_search(query: str, max_results: int = 3, fetch_full_page: bool = False) -> Dict[str, List[Dict[str, Any]]]:
+    """
+    Search the web using Semantic Scholar and return formatted results.
+    
+    
+    Args:
+        query (str): The search query to execute
+        max_results (int, optional): Maximum number of results to return. Defaults to 3.
+        fetch_full_page (bool, optional): Whether to fetch full page content from result URLs. 
+                                         Defaults to False.
+    Returns:
+        Dict[str, List[Dict[str, Any]]]: Search response containing:
+            - results (list): List of search result dictionaries, each containing:
+                - title (str): Title of the search result
+                - url (str): URL of the search result
+                - content (str): Snippet/summary of the content
+                - raw_content (str or None): Full page content if fetch_full_page is True,
+                                            otherwise same as content
+    """  
+    #query = "(AI adoption - AI usage - AI expectatations) | higher education"
+    fields = "title,year,abstract,citations,url,publicationTypes,publicationDate,openAccessPdf"
+    fieldsOfStudy="Computer Science,Education,Engineering"
+    api_key =  os.getenv('SEMANTIC_SCHOLAR_API_KEY')
+    # Define headers with API key
+    headers = {"x-api-key": api_key}
+
+    url = f"http://api.semanticscholar.org/graph/v1/paper/search?query={query}&fields={fields}&fieldsOfStudy={fieldsOfStudy}&year=2018-"
+    r = requests.get(url, headers=headers).json()
+
+    print(f"Will retrieve an estimated {r['total']} documents")
+    retrieved = 0
+    results = []
+    while True:
+        if "data" in r:
+            retrieved += len(r["data"])
+            print(f"Retrieved {retrieved} papers...")
+            for paper in r["data"]:
+                title = paper.get('title', 'No Title')
+                url = paper.get('url', 'No URL')
+                content = paper.get('abstract', 'No Abstract')
+                result = {
+                    "title": title,
+                    "url": url,
+                    "content": content,
+                    "raw_content": content
+                }
+                results.append(result)
+            if "token" not in r:
+                break
+            r = requests.get(f"{url}&token={r['token']}").json()
+    return {"results": results}
