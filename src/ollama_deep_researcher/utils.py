@@ -4,7 +4,6 @@ import requests
 from typing import Dict, Any, List, Union, Optional
 
 from markdownify import markdownify
-from langsmith import traceable
 from tavily import TavilyClient
 from duckduckgo_search import DDGS
 import requests
@@ -151,7 +150,7 @@ def fetch_raw_content(url: str) -> Optional[str]:
         print(f"Warning: Failed to fetch full page content for {url}: {str(e)}")
         return None
 
-@traceable
+
 def duckduckgo_search(query: str, max_results: int = 3, fetch_full_page: bool = False) -> Dict[str, List[Dict[str, Any]]]:
     """
     Search the web using DuckDuckGo and return formatted results.
@@ -205,7 +204,6 @@ def duckduckgo_search(query: str, max_results: int = 3, fetch_full_page: bool = 
         print(f"Full error details: {type(e).__name__}")
         return {"results": []}
 
-@traceable
 def semantic_scholar_search(query: str, max_results: int = 3, fetch_full_page: bool = False) -> Dict[str, List[Dict[str, Any]]]:
     """
     Search the web using Semantic Scholar and return formatted results.
@@ -256,4 +254,7 @@ def semantic_scholar_search(query: str, max_results: int = 3, fetch_full_page: b
             if "token" not in r:
                 break
             r = requests.get(f"{url}&token={r['token']}").json()
+        else:
+            results=[]
+            break
     return {"results": results}

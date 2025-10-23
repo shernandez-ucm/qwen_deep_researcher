@@ -2,6 +2,9 @@
 import asyncio
 from ollama_deep_researcher.graph import graph
 from ollama_deep_researcher.state import SummaryStateInput
+from dotenv import load_dotenv
+
+load_dotenv()
 
 async def main():
     """

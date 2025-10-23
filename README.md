@@ -6,6 +6,14 @@ Give it a topic and it will generate a web search query, gather web search resul
 
 It will provide the user a final markdown summary with all sources used to generate the summary
 
+## Install 
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip3 install langchain langchain_community langchain_ollama duckduckgo_search tavily_python
+```
+
 ## 🚀 Quickstart (after creating a environemnt)
 
 Clone the repository then do a cd:
@@ -40,90 +48,6 @@ MAX_WEB_RESEARCH_LOOPS=xxx # the maximum number of research loop steps, defaults
 FETCH_FULL_PAGE=xxx # fetch the full page content (with `duckduckgo`), defaults to `false`
 ```
 
-### Running with LangGraph Studio
-
-#### Mac
-
-1. (Recommended) Create a virtual environment:
-```bash
-python -m venv .venv
-source .venv/bin/activate
-```
-
-2. Launch LangGraph server:
-
-```bash
-# Install uv package manager
-curl -LsSf https://astral.sh/uv/install.sh | sh
-uvx --refresh --from "langgraph-cli[inmem]" --with-editable . --python 3.11 langgraph dev
-```
-
-#### Windows
-
-1. (Recommended) Create a virtual environment: 
-
-* Install `Python 3.11` (and add to PATH during installation). 
-* Restart your terminal to ensure Python is available, then create and activate a virtual environment:
-
-```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-```
-
-```powershell
-ollama serve
-```
-
-
-2. Launch LangGraph server:
-
-```powershell
-# Install dependencies
-pip install -e .
-pip install -U "langgraph-cli[inmem]"            
-
-# Start the LangGraph server
-langgraph dev
-```
-
-### Using the LangGraph Studio UI
-
-When you launch LangGraph server, you should see the following output and Studio will open in your browser:
-> Ready!
-
-> API: http://127.0.0.1:2024
-
-> Docs: http://127.0.0.1:2024/docs
-
-> LangGraph Studio Web UI: https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024
-
-Open `LangGraph Studio Web UI` via the URL above. In the `configuration` tab, you can directly set various assistant configurations. Keep in mind that the priority order for configuration values is:
-
-```
-1. Environment variables (highest priority)
-2. LangGraph UI configuration
-3. Default values in the Configuration class (lowest priority)
-```
-
-<img width="1621" alt="Screenshot 2025-01-24 at 10 08 31 PM" src="https://github.com/user-attachments/assets/7cfd0e04-28fd-4cfa-aee5-9a556d74ab21" />
-
-Give the assistant a topic for research, and you can visualize its process!
-
-<img width="1621" alt="Screenshot 2025-01-24 at 10 08 22 PM" src="https://github.com/user-attachments/assets/4de6bd89-4f3b-424c-a9cb-70ebd3d45c5f" />
-
-### Model Compatibility Note
-
-When selecting a local LLM, set steps use structured JSON output. Some models may have difficulty with this requirement, and the assistant has fallback mechanisms to handle this. As an example, the [DeepSeek R1 (7B)](https://ollama.com/library/deepseek-llm:7b) and [DeepSeek R1 (1.5B)](https://ollama.com/library/deepseek-r1:1.5b) models have difficulty producing required JSON output, and the assistant will use a fallback mechanism to handle this.
-  
-### Browser Compatibility Note
-
-When accessing the LangGraph Studio UI:
-- Firefox is recommended for the best experience
-- Safari users may encounter security warnings due to mixed content (HTTPS/HTTP)
-- If you encounter issues, try:
-  1. Using Firefox or another browser
-  2. Disabling ad-blocking extensions
-  3. Checking browser console for specific error messages
 
 ## How it works
 
@@ -138,11 +62,5 @@ Local Deep Researcher is inspired by [IterDRAG](https://arxiv.org/html/2410.0434
 
 ## Outputs
 
-The output of the graph is a markdown file containing the research summary, with citations to the sources used. All sources gathered during research are saved to the graph state. You can visualize them in the graph state, which is visible in LangGraph Studio:
-
-![Screenshot 2024-12-05 at 4 08 59 PM](https://github.com/user-attachments/assets/e8ac1c0b-9acb-4a75-8c15-4e677e92f6cb)
-
-The final summary is saved to the graph state as well:
-
-![Screenshot 2024-12-05 at 4 10 11 PM](https://github.com/user-attachments/assets/f6d997d5-9de5-495f-8556-7d3891f6bc96)
+The output of the graph is a markdown file containing the research summary, with citations to the sources used. All sources gathered during research are saved to the graph state. 
 

@@ -3,3 +3,9 @@
 .langgraph_api
 *.pyc
 ollama_deep_researcher.egg-info
+web_research.md
+summarize_sources.md
+reflect_on_summary.md
+generate_query.md
+estado_arte.md
+finalize_summary.md
