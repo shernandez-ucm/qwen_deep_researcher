@@ -232,8 +232,8 @@ def semantic_scholar_search(query: str, max_results: int = 3, fetch_full_page: b
 
     url = f"http://api.semanticscholar.org/graph/v1/paper/search?query={query}&fields={fields}&fieldsOfStudy={fieldsOfStudy}&year=2018-"
     r = requests.get(url, headers=headers).json()
-
-    print(f"Will retrieve an estimated {r['total']} documents")
+    if 'total' in r:
+        print(f"Will retrieve an estimated {r['total']} documents")
     retrieved = 0
     results = []
     while True:

@@ -18,7 +18,7 @@ class Configuration(BaseModel):
         description="Number of research iterations to perform"
     )
     local_llm: str = Field(
-        default="qwen3:8b",
+        default="gpt-oss:20b",
         title="LLM Model Name",
         description="Name of the LLM model to use"
     )

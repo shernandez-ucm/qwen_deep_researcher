@@ -4,7 +4,7 @@ from datetime import datetime
 def get_current_date():
     return datetime.now().strftime("%B %d, %Y")
 
-query_writer_instructions="""Your goal is to generate a targeted web search query.
+query_writer_instructions="""Your goal is to generate a targeted research query.
 
 <CONTEXT>
 Current date: {current_date}
@@ -38,7 +38,7 @@ Generate a high-quality summary of the provided context.
 
 <REQUIREMENTS>
 When creating a NEW summary:
-1. Highlight the most relevant information related to the user topic from the search results
+1. Highlight the most relevant information related to the user topic from the search results based on the title and abstract if available.
 2. Ensure a coherent flow of information
 
 When EXTENDING an existing summary:                                                                                                                 
